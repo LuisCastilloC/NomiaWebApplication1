@@ -8,17 +8,20 @@ using System.Web;
 using System.Web.Mvc;
 using Conexion;
 using NomiaWebApplication1.helpers;
+ 
 
 namespace NomiaWebApplication1.Controllers
 {
     public class RegistroController : Controller
     {
-        private DBNOMINA2022Entities db = new DBNOMINA2022Entities();
+        private DBNOMINA2022Entities2 db = new DBNOMINA2022Entities2();
         // GET: Registro
-        public ActionResult Index()
+        public ActionResult Index(string searching)
         {
+
             var empleado = db.Empleados.Include(a => a.Departamento).Include(a => a.Puesto);
-            return View(empleado.ToList());
+            return View(empleado.Where(x =>x.Apellidos.Contains(searching) || searching == null).ToList());
+            //return View(db.Empleados.Where(x => x.Nombre.Contains(searching) || searching == null).ToList());
         }
 
         public ActionResult Create()
@@ -110,17 +113,17 @@ namespace NomiaWebApplication1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "idNumEmpleado,Nombre,Apellido,Direccion,telefono,RFC,Correo,idDepartamento,Dias_asistidos,idPuesto")] Empleados item)
+        public ActionResult Edit([Bind(Include = "idNumEmpleado,Nombre,Apellidos,Direccion,Telefono,RFC,Correo,idDepartamento,Dias_asistidos,idPuesto")] Empleados empleados)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(item).State = EntityState.Modified;
+                db.Entry(empleados).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.idDepartamento = new SelectList(db.Departamento, "id", "NombreDepartamento", item.idDepartamento);
-            ViewBag.idPuesto = new SelectList(db.Puesto, "id", "Nombre", item.idPuesto);
-            return View(item);
+            ViewBag.idDepartamento = new SelectList(db.Departamento, "id", "NombreDepartamento", empleados.idDepartamento);
+            ViewBag.idPuesto = new SelectList(db.Puesto, "id", "Nombre", empleados.idPuesto);
+            return View(empleados);
         }
 
 

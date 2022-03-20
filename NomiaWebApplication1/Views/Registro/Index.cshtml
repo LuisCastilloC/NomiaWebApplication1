@@ -10,7 +10,13 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+
+@using (Html.BeginForm("Index", "Registro", FormMethod.Get))
+{
+    @Html.TextBox("searching")
+    <input type="submit" value="Search" />
+}
+<table class="table table-striped">
     <tr>
         <th>
 
@@ -59,49 +65,65 @@
         </th>
         <th></th>
     </tr>
+    <tbody>
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="3" style="color:red">
+                    Ninguna coincidencia encontrada
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.idNumEmpleado)*@
+                        @item.idNumEmpleado
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.Nombre)*@
+                        @item.Nombre
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Apellidos)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Direccion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Telefono)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RFC)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Correo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Departamento.NombreDepartamento)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Dias_asistidos)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Puesto.Nombre)
+                    </td>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.idNumEmpleado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Apellidos)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Direccion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Telefono)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RFC)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Correo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Departamento.NombreDepartamento)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Dias_asistidos)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Puesto.Nombre)
-        </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Puesto.Sueldo_Fijo)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.idNumEmpleado }) |
+                        <br />
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Puesto.Sueldo_Fijo)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.idNumEmpleado}) |
-        
-            @Html.ActionLink("Delete", "Delete", new { id = item.idNumEmpleado })
-        </td>
-    </tr>
-}
+                        @Html.ActionLink("Delete", "Delete", new { id = item.idNumEmpleado })
+                    </td>
+                </tr>
+            }
 
+        }
+    </tbody>
 </table>

@@ -10,7 +10,7 @@ namespace Registros.Empleados
 {
     public partial class registro
     {
-        DBNOMINA2022Entities db = new DBNOMINA2022Entities();
+        DBNOMINA2022Entities2 db = new DBNOMINA2022Entities2();
 
         public List<Conexion.Empleados> Listar()
         {

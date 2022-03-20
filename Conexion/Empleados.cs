@@ -35,5 +35,10 @@ namespace Conexion
         public virtual Puesto Puesto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pagos> Pagos { get; set; }
+
+        public static object Where(Func<object, object> p)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
